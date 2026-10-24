@@ -115,3 +115,24 @@ branch=claude/ecstatic-fermi-e5tezy
 repo_root=/home/user/hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
+
+## [2026-10-24T14:15:09Z] Beginner guide and PRD for teammate using Copilot
+
+User Prompt (verbatim, secrets redacted):
+OK FOR HER WHERE SHOULD SHE CODE LIKE IN MAIN.PY OF REPO OR WHERE GUIDE WITH  THE DIRECTIONS AND GIVE THE PRD TO COPIOLIT FOR HER
+
+Agent Response Summary:
+Wrote two documents under docs/friend_guide/: 01_START_HERE.md (where to code in the official starter repo, VS Code and Copilot Free setup, the working loop, rules and submission checklist) and 02_PRD_for_Copilot.md (requirements, verified data facts, policy table, step format and ordering, 9 milestones with acceptance checks). Before writing, checked that CLASSIFY_REQUEST activity rows exist, that request texts are multilingual so English keyword rules would miss deletion requests, and that every sample answer has exactly one account_service VERIFY_RECORD_ABSENT. The PRD describes what to build and contains none of the solution code.
+
+Actions:
+* Read-only checks of system_activity.csv, deletion_requests.csv, sample_output.csv
+* Created docs/friend_guide/01_START_HERE.md and 02_PRD_for_Copilot.md
+* Appended this entry, committed and pushed
+
+Context:
+tool=Claude Code
+model=claude-sonnet-5-5
+branch=claude/ecstatic-fermi-e5tezy
+repo_root=/home/user/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
