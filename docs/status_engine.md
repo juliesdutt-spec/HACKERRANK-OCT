@@ -128,6 +128,7 @@ Missing or inconclusive evidence never makes a case INCOMPLETE. The reported wor
 - **Order:** phase, then the operation order of the problem statement's table, then `system_id` and `resource_id`. `step_no` counts from 1. All 32 sample answers follow this order.
 - **File format:** `output.csv` rows are sorted by the case number, `case_33` to `case_550`, the same order as `deletion_requests.csv`. Plain text sorting would put `case_100` before `case_33`. JSON is compact, as in `sample_output.csv`.
 - **Validator:** `validate_output` checks the header, one row per request, row order, allowed statuses, phases, operations and states, numbering, ordering, the evidence rules for each phase and status, and that every cited ID exists and was captured at or before `audit_at`.
+- **Parse failures:** if any evidence file fails to parse (for example, Tesseract is not installed), `code/main.py` lists the files and exits with code 3 without writing `output.csv`, because the result would silently differ (in a test without Tesseract, 5 cases changed and 3 of them changed status). `--allow-parse-failures` writes the output anyway.
 
 **Sample scores** (`python3 code/evaluation/main.py`):
 
@@ -146,4 +147,4 @@ All 34 missing steps are the 34 resources the evidence linkage cannot reach (23 
 
 - **Screenshots.** The state of a resource on a screenshot can only be read when it sits on the same OCR line, which most status labels (Healthy, Ready, Retained reference) do not. Those resources stay UNKNOWN. A layout-aware reader or a vision model would be needed, and no sample covers screenshot cases, so neither could be validated here.
 - **Linkage.** Resources linkable only through workflow time windows, or only through files captured after `audit_at`, are not linked (see `docs/evidence_index.md`). This lowers confidence but has not changed a sample status.
-- **Untested category.** The samples contain no NOT_APPLICABLE case, so that category is checked only against the request texts themselves.
+- **Untested category.** The samples contain no NOT_APPLICABLE case, so that category is checked only against the request texts themselves and custom case 4 (`code/evaluation/custom_cases.py`).

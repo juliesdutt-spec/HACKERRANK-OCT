@@ -532,3 +532,162 @@ branch=claude/ecstatic-fermi-e5tezy
 repo_root=/home/user/hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
+
+## [2026-10-24T17:14:38Z] Final submission: verification, README, reports, code.zip
+
+User Prompt (verbatim, secrets redacted):
+We are at the final submission stage for HackerRank Orchestrate October 2026 — Ghost Data Still Exists.
+The core implementation now includes `steps.py`, `audit.py`, and `output.py`. The remaining deliverables are:
+
+1. `README.md`
+2. `code/evaluation/evaluation_report.md`
+3. `code/evaluation/usage_report.md`
+4. `code.zip`
+
+Do not assume the implementation is correct simply because these files are written. Verify it first.
+PHASE 1 — VERIFY THE IMPLEMENTATION
+Inspect `AGENTS.md`, the existing implementation, tests, and repository structure.
+Run the actual test suite and inspect the results. Fix reproducible defects before packaging.
+Verify that the solution:
+
+* Reads the expected dataset paths.
+* Produces exactly 518 data rows in `output.csv`.
+* Uses exactly these columns: `case_id,deletion_status,steps_json`.
+* Sorts rows by `case_id`.
+* Uses only `COMPLETE`, `INCOMPLETE`, and `NOT_APPLICABLE`.
+* Writes valid JSON arrays in `steps_json`.
+* Uses valid step fields, operation names, states, phases, evidence references, and ordering according to the challenge specification.
+* Uses `[]` for `NOT_APPLICABLE`.
+* Produces verification-only steps for `COMPLETE`.
+* Produces findings, remediation, and future verification steps for `INCOMPLETE`, as applicable.
+* Does not invent evidence or hardcode sample answers.
+* Respects audit timestamps and applicable retention rules.
+
+Run the actual generation command and inspect the resulting `output.csv`. Do not report successful validation unless the corresponding checks were executed.
+PHASE 2 — WRITE README.md
+Create a clear, concise, reproducible `README.md` at the appropriate solution root.
+Include:
+
+* Project purpose.
+* Python version and prerequisites, based on the actual code.
+* Installation:
+`pip install -r requirements.txt`
+* Tesseract OCR installation and setup instructions for the relevant operating systems, if OCR is required.
+* Exact commands to run the tests.
+* Exact command to generate `output.csv`.
+* Input and output file locations.
+* A brief explanation of the evidence-indexing, identity-resolution, audit, and step-generation pipeline.
+* Known limitations and deterministic behavior.
+* Expected output schema.
+
+Inspect the actual repository before writing commands. Do not invent script names, paths, dependencies, or supported Python versions.
+PHASE 3 — WRITE evaluation_report.md
+Create:
+`code/evaluation/evaluation_report.md`
+It must contain:
+A. Evaluation methodology
+Explain how the implementation was tested and how predictions were compared with the provided sample answers.
+B. Sample evaluation
+Report the actual number of sample cases evaluated, status accuracy, step/field accuracy, sequence accuracy, and any other available metrics.
+Do not invent metrics. If a metric has not been implemented, either implement and run a suitable evaluator or clearly mark it as not measured.
+C. At least three custom evaluation cases
+Create at least three team-authored test cases covering meaningful edge conditions, such as:
+
+* A record that must be retained under policy.
+* A historical identifier or misleading near-match.
+* An active data flow or restore risk.
+
+Use synthetic fixtures where appropriate. Each case must document:
+
+* Scenario and expected behavior.
+* Input or fixture used.
+* Why the expected result follows from the challenge rules.
+* Actual result.
+* Pass/fail.
+
+Do not falsely describe a synthetic case as a real dataset case. Do not count a test as passing unless it was executed.
+D. Error analysis and improvements
+Describe actual mismatches, root causes, known limitations, and the improvements made.
+If sample answers conflict with available evidence, document the specific case and supporting facts. Do not automatically label the sample as wrong.
+PHASE 4 — WRITE usage_report.md
+Create:
+`code/evaluation/usage_report.md`
+The current implementation is intended to use no LLM/API calls. Verify this by inspecting the code and its execution path.
+If confirmed, report:
+
+* Model providers: None.
+* Model names: None.
+* Model calls: 0.
+* Input tokens: 0.
+* Output tokens: 0.
+* Total tokens: 0.
+* Estimated total model cost: $0.
+* Average tokens per request: 0, if no model requests occurred.
+
+Explain that these figures refer to model/API usage and do not mean the program consumes zero CPU time or other computing resources.
+If any model/API calls actually occur, do not report zero. Record only measurements supported by logs or instrumentation.
+PHASE 5 — BUILD code.zip
+Inspect the challenge's required package structure and `AGENTS.md` before packaging.
+Create `code.zip` containing the complete solution code and required supporting files, including:
+
+* Python source code.
+* Required dependencies file.
+* Tests.
+* Evaluation scripts and reports.
+* README and other required documentation.
+* Any additional files explicitly required by the challenge.
+
+Do not accidentally include:
+
+* Virtual environments.
+* Cache directories such as `__pycache__`.
+* API keys, credentials, personal secrets, or local environment files.
+* Unnecessary large files or duplicate datasets unless the challenge explicitly requires them.
+
+Ensure the ZIP contains the correct relative directory structure. List the archive contents and verify that it opens successfully.
+Do not assume `output.csv` belongs inside `code.zip`; inspect the submission instructions and keep the standalone output deliverable where required.
+PHASE 6 — FINAL VALIDATION
+Before finishing:
+
+1. Run the test suite.
+2. Generate `output.csv` using the documented command.
+3. Validate the CSV headers, row count, ordering, statuses, JSON syntax, and step schema.
+4. Run the sample evaluator and custom tests.
+5. Verify both evaluation reports.
+6. Rebuild `code.zip` after all code and documentation changes.
+7. Inspect the final ZIP contents.
+8. Confirm that the standalone `output.csv` and required transcript/log file are present in the expected locations.
+
+Do not claim that a file exists unless you verified it.
+FINAL RESPONSE
+Give me a concise completion report with:
+
+* Tests passed/failed.
+* Actual sample evaluation metrics.
+* Custom cases passed/failed.
+* Confirmation of the 518-row output and schema checks.
+* Files created or modified.
+* ZIP validation result.
+* Remaining blockers or known limitations.
+* Exact locations of the submission deliverables.
+
+If any check fails, fix it where possible. If it cannot be fixed reliably, report the blocker instead of hiding it.
+Priority: correctness and reproducibility over cosmetic improvements. Do not add a frontend or unnecessary features at this stage.
+
+Agent Response Summary:
+Verified the implementation before documenting it: 111 tests pass, output.csv has 518 sorted rows with 0 contract problems (built-in validator and an independent checker that shares no code with it), and a grep found no hardcoded case IDs, sample answers, network, LLM or environment-key use. Found that a run without Tesseract silently changed 5 cases, so code/main.py now exits 3 unless --allow-parse-failures is given (tested). Rewrote README.md, wrote code/evaluation/evaluation_report.md (methodology, sample metrics generated from artifacts, 6 synthetic custom cases that all pass, error analysis) and code/evaluation/usage_report.md (0 model calls, 0 tokens, $0; measured compute). Built code.zip (43 files, no dataset, caches, artifacts, log or output) and confirmed that an extracted copy passes the tests and reproduces output.csv byte for byte.
+
+Actions:
+* edited code/main.py, code/tests/test_steps.py, README.md, docs/status_engine.md
+* created code/evaluation/custom_cases.py, code/evaluation/check_output.py, code/tests/test_custom_cases.py, code/evaluation/evaluation_report.md, code/evaluation/usage_report.md, code.zip
+* ran python3 -m unittest discover -s code/tests; python3 code/main.py; python3 code/evaluation/check_output.py; python3 code/evaluation/main.py; python3 code/evaluation/custom_cases.py; evaluate_status.py; validate_evidence.py
+* tested Python 3.11/3.12/3.13 environments, a run without Tesseract, and cold and warm timings
+* zip -r code.zip ...; unzip -l / unzip -t; extracted-copy test run and md5 comparison
+
+Context:
+tool=Claude Code
+model=claude-opus-5-5
+branch=claude/ecstatic-fermi-e5tezy
+repo_root=/home/user/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none

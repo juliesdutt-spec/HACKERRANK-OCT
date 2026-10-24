@@ -151,6 +151,56 @@ class OutputContractTests(unittest.TestCase):
         self.assertTrue(validate_output(path, self.requests, self.times)[0][0].startswith("header"))
 
 
+class MissingOcrTests(unittest.TestCase):
+    """main.py must not silently write a different output when Tesseract is unavailable."""
+
+    def test_run_stops_without_tesseract_unless_allowed(self):
+        import os
+        import subprocess
+        scratch = Path(tempfile.mkdtemp(prefix="SYNTHETIC_no_ocr_"))
+        try:
+            bin_dir = scratch / "bin"
+            bin_dir.mkdir()
+            (bin_dir / "python3").symlink_to(Path(sys.executable).resolve())
+            env = {**os.environ, "PATH": str(bin_dir)}
+            main = str(Path(__file__).resolve().parents[1] / "main.py")
+            out = scratch / "out.csv"
+            strict = subprocess.run([str(bin_dir / "python3"), main, "--output", str(out), "--no-audit-trail"],
+                                    capture_output=True, text=True, env=env)
+            self.assertEqual(strict.returncode, 3, strict.stderr)
+            self.assertIn("tesseract OCR is not installed", strict.stderr)
+            self.assertFalse(out.exists())
+            allowed = subprocess.run([str(bin_dir / "python3"), main, "--output", str(out), "--no-audit-trail",
+                                      "--allow-parse-failures"], capture_output=True, text=True, env=env)
+            self.assertEqual(allowed.returncode, 0, allowed.stderr)
+            self.assertTrue(out.exists())
+        finally:
+            shutil.rmtree(scratch, ignore_errors=True)
+
+
+class IndependentCheckerTests(unittest.TestCase):
+    """code/evaluation/check_output.py must reject a corrupted output (it shares no code with output.py)."""
+
+    def test_checker_flags_a_corrupted_row(self):
+        import subprocess
+        repo = Path(__file__).resolve().parents[2]
+        if not (repo / "output.csv").exists():
+            self.skipTest("output.csv has not been generated yet")
+        scratch = Path(tempfile.mkdtemp(prefix="SYNTHETIC_checker_"))
+        try:
+            (scratch / "dataset").symlink_to(repo / "dataset")
+            lines = (repo / "output.csv").read_text(encoding="utf-8").splitlines(keepends=True)
+            first = next(i for i, line in enumerate(lines) if ",INCOMPLETE," in line)
+            lines[first] = lines[first].replace('""evidence_id"":""""', '""evidence_id"":""SYNTHETIC_bad""', 1)
+            (scratch / "output.csv").write_text("".join(lines), encoding="utf-8")
+            checker = str(repo / "code" / "evaluation" / "check_output.py")
+            bad = subprocess.run([sys.executable, checker, str(scratch)], capture_output=True, text=True)
+            self.assertEqual(bad.returncode, 1, bad.stdout)
+            self.assertIn("future step with evidence", bad.stdout)
+        finally:
+            shutil.rmtree(scratch, ignore_errors=True)
+
+
 class RealSampleStepTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

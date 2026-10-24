@@ -1,0 +1,427 @@
+[
+  {
+    "id": "CUSTOM_01_retained_security_record",
+    "scenario": "The account is gone and a security audit record within its retention period remains.",
+    "rule_basis": "rule_01 deletes USER_PROFILE; rule_12 retains SECURITY_AUDIT_LOG within the retention period (retention_until 2033 > audit_at). COMPLETE cases contain only evidence-backed verification steps; the retained record is verified PRESENT and never deleted.",
+    "request": {
+      "email": "sam@example.test"
+    },
+    "expected_status": "COMPLETE",
+    "expected_steps": [
+      {
+        "step_no": 1,
+        "phase": "VERIFICATION",
+        "system_id": "account_service",
+        "resource_id": "account_9202",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": "SYNTHETIC_checks"
+      },
+      {
+        "step_no": 2,
+        "phase": "VERIFICATION",
+        "system_id": "security_service",
+        "resource_id": "audit_record_9202",
+        "operation": "VERIFY_RECORD_PRESENT",
+        "state": "PRESENT",
+        "evidence_id": "SYNTHETIC_export"
+      }
+    ],
+    "actual_status": "COMPLETE",
+    "actual_steps": [
+      {
+        "step_no": 1,
+        "phase": "VERIFICATION",
+        "system_id": "account_service",
+        "resource_id": "account_9202",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": "SYNTHETIC_checks"
+      },
+      {
+        "step_no": 2,
+        "phase": "VERIFICATION",
+        "system_id": "security_service",
+        "resource_id": "audit_record_9202",
+        "operation": "VERIFY_RECORD_PRESENT",
+        "state": "PRESENT",
+        "evidence_id": "SYNTHETIC_export"
+      }
+    ],
+    "step_notes": [],
+    "status_reason": "every linked resource meets its rule at audit_at",
+    "passed": true
+  },
+  {
+    "id": "CUSTOM_02_historical_email_and_near_match_decoy",
+    "scenario": "The request uses the person's former email in different case; a search document still holds it, and a decoy document with the same name and a one-letter-different email (rita.olde@) sits beside it.",
+    "rule_basis": "Identifiers include historical emails up to audit_at and match case-insensitively; names and similar emails never link. rule_03 deletes SEARCH_INDEX_ENTRY, so the remaining document is a finding.",
+    "request": {
+      "email": "  Rita.Old@Example.Test "
+    },
+    "expected_status": "INCOMPLETE",
+    "expected_steps": [
+      {
+        "step_no": 1,
+        "phase": "FINDING",
+        "system_id": "search_service",
+        "resource_id": "search_9201",
+        "operation": "REPORT_REMAINING_RECORD",
+        "state": "PRESENT",
+        "evidence_id": "SYNTHETIC_export"
+      },
+      {
+        "step_no": 2,
+        "phase": "REMEDIATION",
+        "system_id": "search_service",
+        "resource_id": "search_9201",
+        "operation": "DELETE_RECORD",
+        "state": "ABSENT",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 3,
+        "phase": "VERIFICATION",
+        "system_id": "account_service",
+        "resource_id": "account_9201",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 4,
+        "phase": "VERIFICATION",
+        "system_id": "search_service",
+        "resource_id": "search_9201",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": ""
+      }
+    ],
+    "actual_status": "INCOMPLETE",
+    "actual_steps": [
+      {
+        "step_no": 1,
+        "phase": "FINDING",
+        "system_id": "search_service",
+        "resource_id": "search_9201",
+        "operation": "REPORT_REMAINING_RECORD",
+        "state": "PRESENT",
+        "evidence_id": "SYNTHETIC_export"
+      },
+      {
+        "step_no": 2,
+        "phase": "REMEDIATION",
+        "system_id": "search_service",
+        "resource_id": "search_9201",
+        "operation": "DELETE_RECORD",
+        "state": "ABSENT",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 3,
+        "phase": "VERIFICATION",
+        "system_id": "account_service",
+        "resource_id": "account_9201",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 4,
+        "phase": "VERIFICATION",
+        "system_id": "search_service",
+        "resource_id": "search_9201",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": ""
+      }
+    ],
+    "step_notes": [],
+    "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD search_service/search_9201",
+    "passed": true
+  },
+  {
+    "id": "CUSTOM_03_active_flow_and_restore_risk",
+    "scenario": "The account is gone, but a connector for the person is still ACTIVE and a backup still allows restore; a workflow claim says the connector was disabled.",
+    "rule_basis": "No active sync or restore path may remain (problem statement). rule_14 retains BACKUP_ARCHIVE only with restore blocked. The claim SYNTHETIC_act_1 is not proof. Remediation disables the flow and blocks the restore first, in the operation order of the specification.",
+    "request": {
+      "email": "tess@example.test"
+    },
+    "expected_status": "INCOMPLETE",
+    "expected_steps": [
+      {
+        "step_no": 1,
+        "phase": "FINDING",
+        "system_id": "integration_service",
+        "resource_id": "data_flow_9203",
+        "operation": "REPORT_ACTIVE_DATA_FLOW",
+        "state": "ACTIVE",
+        "evidence_id": "SYNTHETIC_checks"
+      },
+      {
+        "step_no": 2,
+        "phase": "FINDING",
+        "system_id": "backup_service",
+        "resource_id": "backup_9203",
+        "operation": "REPORT_RESTORE_RISK",
+        "state": "ACTIVE",
+        "evidence_id": "SYNTHETIC_checks"
+      },
+      {
+        "step_no": 3,
+        "phase": "REMEDIATION",
+        "system_id": "integration_service",
+        "resource_id": "data_flow_9203",
+        "operation": "DISABLE_DATA_FLOW",
+        "state": "DISABLED",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 4,
+        "phase": "REMEDIATION",
+        "system_id": "backup_service",
+        "resource_id": "backup_9203",
+        "operation": "BLOCK_RESTORE",
+        "state": "BLOCKED",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 5,
+        "phase": "VERIFICATION",
+        "system_id": "account_service",
+        "resource_id": "account_9203",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 6,
+        "phase": "VERIFICATION",
+        "system_id": "integration_service",
+        "resource_id": "data_flow_9203",
+        "operation": "VERIFY_DATA_FLOW_DISABLED",
+        "state": "DISABLED",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 7,
+        "phase": "VERIFICATION",
+        "system_id": "backup_service",
+        "resource_id": "backup_9203",
+        "operation": "VERIFY_RESTORE_BLOCKED",
+        "state": "BLOCKED",
+        "evidence_id": ""
+      }
+    ],
+    "actual_status": "INCOMPLETE",
+    "actual_steps": [
+      {
+        "step_no": 1,
+        "phase": "FINDING",
+        "system_id": "integration_service",
+        "resource_id": "data_flow_9203",
+        "operation": "REPORT_ACTIVE_DATA_FLOW",
+        "state": "ACTIVE",
+        "evidence_id": "SYNTHETIC_checks"
+      },
+      {
+        "step_no": 2,
+        "phase": "FINDING",
+        "system_id": "backup_service",
+        "resource_id": "backup_9203",
+        "operation": "REPORT_RESTORE_RISK",
+        "state": "ACTIVE",
+        "evidence_id": "SYNTHETIC_checks"
+      },
+      {
+        "step_no": 3,
+        "phase": "REMEDIATION",
+        "system_id": "integration_service",
+        "resource_id": "data_flow_9203",
+        "operation": "DISABLE_DATA_FLOW",
+        "state": "DISABLED",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 4,
+        "phase": "REMEDIATION",
+        "system_id": "backup_service",
+        "resource_id": "backup_9203",
+        "operation": "BLOCK_RESTORE",
+        "state": "BLOCKED",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 5,
+        "phase": "VERIFICATION",
+        "system_id": "account_service",
+        "resource_id": "account_9203",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 6,
+        "phase": "VERIFICATION",
+        "system_id": "integration_service",
+        "resource_id": "data_flow_9203",
+        "operation": "VERIFY_DATA_FLOW_DISABLED",
+        "state": "DISABLED",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 7,
+        "phase": "VERIFICATION",
+        "system_id": "backup_service",
+        "resource_id": "backup_9203",
+        "operation": "VERIFY_RESTORE_BLOCKED",
+        "state": "BLOCKED",
+        "evidence_id": ""
+      }
+    ],
+    "step_notes": [],
+    "status_reason": "confirmed unmet requirement(s): RESTORE_RISK backup_service/backup_9203, ACTIVE_DATA_FLOW integration_service/data_flow_9203",
+    "passed": true
+  },
+  {
+    "id": "CUSTOM_04_non_deletion_request",
+    "scenario": "The person asks for a copy of their data and explicitly declines deletion, although a search document for them exists.",
+    "rule_basis": "A request for access or export is NOT_APPLICABLE with steps_json [] (AGENTS.md 6.5), whatever data exists.",
+    "request": {
+      "email": "uma@example.test",
+      "request_text": "Could you send me a copy of my data? Please don't delete or change anything."
+    },
+    "expected_status": "NOT_APPLICABLE",
+    "expected_steps": [],
+    "actual_status": "NOT_APPLICABLE",
+    "actual_steps": [],
+    "step_notes": [],
+    "status_reason": "the request explicitly declines deletion or asks to keep the account",
+    "passed": true
+  },
+  {
+    "id": "CUSTOM_05_evidence_after_audit_at_is_ignored",
+    "scenario": "The account was confirmed absent before audit_at; a file captured three weeks after audit_at shows a search document for the person.",
+    "rule_basis": "Only information available at or before audit_at decides the case, and later evidence is never cited (AGENTS.md 6.2, 6.6).",
+    "request": {
+      "email": "vic@example.test"
+    },
+    "expected_status": "COMPLETE",
+    "expected_steps": [
+      {
+        "step_no": 1,
+        "phase": "VERIFICATION",
+        "system_id": "account_service",
+        "resource_id": "account_9205",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": "SYNTHETIC_checks"
+      }
+    ],
+    "actual_status": "COMPLETE",
+    "actual_steps": [
+      {
+        "step_no": 1,
+        "phase": "VERIFICATION",
+        "system_id": "account_service",
+        "resource_id": "account_9205",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": "SYNTHETIC_checks"
+      }
+    ],
+    "step_notes": [],
+    "status_reason": "every linked resource meets its rule at audit_at",
+    "passed": true
+  },
+  {
+    "id": "CUSTOM_06_tombstone_still_exposes_identifiers",
+    "scenario": "The account is gone, but its deleted-account reference still carries the person's name and email.",
+    "rule_basis": "rule_15: an ACCOUNT_TOMBSTONE keeps only the stable user reference; name and email must be redacted, so the exposed identifiers are a finding and the fix is REDACT_RECORD.",
+    "request": {
+      "email": "wen@example.test"
+    },
+    "expected_status": "INCOMPLETE",
+    "expected_steps": [
+      {
+        "step_no": 1,
+        "phase": "FINDING",
+        "system_id": "identity_service",
+        "resource_id": "tombstone_9206",
+        "operation": "REPORT_EXPOSED_PII",
+        "state": "PRESENT",
+        "evidence_id": "SYNTHETIC_bundle"
+      },
+      {
+        "step_no": 2,
+        "phase": "REMEDIATION",
+        "system_id": "identity_service",
+        "resource_id": "tombstone_9206",
+        "operation": "REDACT_RECORD",
+        "state": "REDACTED",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 3,
+        "phase": "VERIFICATION",
+        "system_id": "account_service",
+        "resource_id": "account_9206",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 4,
+        "phase": "VERIFICATION",
+        "system_id": "identity_service",
+        "resource_id": "tombstone_9206",
+        "operation": "VERIFY_RECORD_REDACTED",
+        "state": "REDACTED",
+        "evidence_id": ""
+      }
+    ],
+    "actual_status": "INCOMPLETE",
+    "actual_steps": [
+      {
+        "step_no": 1,
+        "phase": "FINDING",
+        "system_id": "identity_service",
+        "resource_id": "tombstone_9206",
+        "operation": "REPORT_EXPOSED_PII",
+        "state": "PRESENT",
+        "evidence_id": "SYNTHETIC_bundle"
+      },
+      {
+        "step_no": 2,
+        "phase": "REMEDIATION",
+        "system_id": "identity_service",
+        "resource_id": "tombstone_9206",
+        "operation": "REDACT_RECORD",
+        "state": "REDACTED",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 3,
+        "phase": "VERIFICATION",
+        "system_id": "account_service",
+        "resource_id": "account_9206",
+        "operation": "VERIFY_RECORD_ABSENT",
+        "state": "ABSENT",
+        "evidence_id": ""
+      },
+      {
+        "step_no": 4,
+        "phase": "VERIFICATION",
+        "system_id": "identity_service",
+        "resource_id": "tombstone_9206",
+        "operation": "VERIFY_RECORD_REDACTED",
+        "state": "REDACTED",
+        "evidence_id": ""
+      }
+    ],
+    "step_notes": [],
+    "status_reason": "confirmed unmet requirement(s): EXPOSED_PII identity_service/tombstone_9206",
+    "passed": true
+  }
+]

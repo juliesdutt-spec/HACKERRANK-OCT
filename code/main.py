@@ -4,7 +4,9 @@
     python3 code/main.py --requests sample_deletion_requests.csv --output artifacts/sample_predictions.csv
 
 Also writes artifacts/case_audits_<name>.json with each case's audit trail and steps. The run is
-deterministic and needs no API key; screenshots need the Tesseract binary (see README.md).
+deterministic and needs no API key; screenshots need the Tesseract binary (see README.md). If any
+evidence file cannot be parsed, the run stops with exit code 3 instead of silently writing a
+different output, unless --allow-parse-failures is given.
 """
 from __future__ import annotations
 
@@ -22,8 +24,18 @@ from ghostaudit.output import citable_evidence_times, validate_output, write_out
 from ghostaudit.steps import build_steps  # noqa: E402
 
 
-def run(requests_file: str, output: Path, audits_out: Path | None) -> int:
+def run(requests_file: str, output: Path, audits_out: Path | None, allow_parse_failures: bool = False) -> int:
     engine = AuditEngine.build()
+    statuses = collections.Counter(r.status for r in engine.index.reports)
+    print(f"evidence: {len(engine.index.reports)} files {dict(sorted(statuses.items()))}")
+    failed = [r for r in engine.index.reports if r.status == "failed"]
+    if failed:
+        print(f"WARNING: {len(failed)} evidence files could not be parsed; results would differ from a full run:", file=sys.stderr)
+        for report in failed[:12]:
+            print(f"  {report.file_id} {report.file_path}: {'; '.join(report.errors)}", file=sys.stderr)
+        if not allow_parse_failures:
+            print("no output written (install the missing tool, or pass --allow-parse-failures)", file=sys.stderr)
+            return 3
     requests = read_csv(requests_file)
     audits = []
     for request in requests:
@@ -58,10 +70,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--requests", default="deletion_requests.csv", help="request file inside dataset/")
     parser.add_argument("--output", type=Path, default=REPO_ROOT / "output.csv")
     parser.add_argument("--no-audit-trail", action="store_true", help="skip writing artifacts/case_audits_*.json")
+    parser.add_argument("--allow-parse-failures", action="store_true",
+                        help="write output even if some evidence files could not be parsed (e.g. Tesseract missing)")
     args = parser.parse_args(argv)
     name = "main" if args.requests == "deletion_requests.csv" else Path(args.requests).stem.replace("_deletion_requests", "")
     trail = None if args.no_audit_trail else REPO_ROOT / "artifacts" / f"case_audits_{name}.json"
-    return run(args.requests, args.output, trail)
+    return run(args.requests, args.output, trail, args.allow_parse_failures)
 
 
 if __name__ == "__main__":
