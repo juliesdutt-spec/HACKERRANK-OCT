@@ -1,0 +1,1335 @@
+{
+  "missing_resource_reasons": {
+    "identifier_link_only_in_evidence_after_audit_at": 8,
+    "no_participant_reference": 3,
+    "only_unlinked_records_plus_workflow_activity_in_request_window": 23
+  },
+  "cases": 32,
+  "expected_resources": 111,
+  "expected_resources_linked": 77,
+  "cases_with_all_resources_linked": 10,
+  "cited_evidence": 75,
+  "cited_evidence_found_for_resource": 59,
+  "cited_evidence_after_audit_at": 0,
+  "extra_linked_resources": 3,
+  "case_details": [
+    {
+      "case_id": "case_01",
+      "deletion_status": "COMPLETE",
+      "user_id": "user_01",
+      "expected_resources": [
+        "account_service/account_001"
+      ],
+      "linked_expected": [],
+      "missing_expected": [
+        "account_service/account_001"
+      ],
+      "missing_reasons": {
+        "account_service/account_001": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_001",
+          "evidence_id": "evidence_54",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        }
+      ],
+      "link_bases": []
+    },
+    {
+      "case_id": "case_02",
+      "deletion_status": "COMPLETE",
+      "user_id": "user_02",
+      "expected_resources": [
+        "account_service/account_002"
+      ],
+      "linked_expected": [],
+      "missing_expected": [
+        "account_service/account_002"
+      ],
+      "missing_reasons": {
+        "account_service/account_002": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_002",
+          "evidence_id": "evidence_54",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        }
+      ],
+      "link_bases": []
+    },
+    {
+      "case_id": "case_03",
+      "deletion_status": "COMPLETE",
+      "user_id": "user_43",
+      "expected_resources": [
+        "account_service/account_7566",
+        "analytics_platform/analytics_9406",
+        "security_service/audit_record_2016"
+      ],
+      "linked_expected": [
+        "account_service/account_7566",
+        "security_service/audit_record_2016"
+      ],
+      "missing_expected": [
+        "analytics_platform/analytics_9406"
+      ],
+      "missing_reasons": {
+        "analytics_platform/analytics_9406": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_7566",
+          "evidence_id": "evidence_94",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "analytics_platform/analytics_9406",
+          "evidence_id": "evidence_94",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "security_service/audit_record_2016",
+          "evidence_id": "evidence_94",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_04",
+      "deletion_status": "COMPLETE",
+      "user_id": "user_04",
+      "expected_resources": [
+        "account_service/account_004",
+        "analytics_platform/analytics_901"
+      ],
+      "linked_expected": [],
+      "missing_expected": [
+        "account_service/account_004",
+        "analytics_platform/analytics_901"
+      ],
+      "missing_reasons": {
+        "account_service/account_004": "no_participant_reference",
+        "analytics_platform/analytics_901": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_004",
+          "evidence_id": "evidence_54",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "analytics_platform/analytics_901",
+          "evidence_id": "evidence_56",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        }
+      ],
+      "link_bases": []
+    },
+    {
+      "case_id": "case_05",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_05",
+      "expected_resources": [
+        "account_service/account_005"
+      ],
+      "linked_expected": [
+        "account_service/account_005"
+      ],
+      "missing_expected": [],
+      "missing_reasons": {},
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_005",
+          "evidence_id": "evidence_54",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_06",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_06",
+      "expected_resources": [
+        "account_service/account_006",
+        "search_service/search_001"
+      ],
+      "linked_expected": [
+        "account_service/account_006",
+        "search_service/search_001"
+      ],
+      "missing_expected": [],
+      "missing_reasons": {},
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "search_service/search_001",
+          "evidence_id": "evidence_57",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "related_resource",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_07",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_07",
+      "expected_resources": [
+        "account_service/account_007",
+        "support_platform/support_001"
+      ],
+      "linked_expected": [
+        "support_platform/support_001"
+      ],
+      "missing_expected": [
+        "account_service/account_007"
+      ],
+      "missing_reasons": {
+        "account_service/account_007": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [
+        "object_storage/object_19"
+      ],
+      "cited_evidence": [
+        {
+          "resource": "support_platform/support_001",
+          "evidence_id": "evidence_58",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_08",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_08",
+      "expected_resources": [
+        "account_service/account_008",
+        "export_service/export_001"
+      ],
+      "linked_expected": [
+        "export_service/export_001"
+      ],
+      "missing_expected": [
+        "account_service/account_008"
+      ],
+      "missing_reasons": {
+        "account_service/account_008": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "export_service/export_001",
+          "evidence_id": "evidence_59",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_09",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_61",
+      "expected_resources": [
+        "account_service/account_3960",
+        "backup_service/backup_4978",
+        "security_service/audit_record_4902"
+      ],
+      "linked_expected": [
+        "backup_service/backup_4978"
+      ],
+      "missing_expected": [
+        "account_service/account_3960",
+        "security_service/audit_record_4902"
+      ],
+      "missing_reasons": {
+        "account_service/account_3960": "identifier_link_only_in_evidence_after_audit_at",
+        "security_service/audit_record_4902": "identifier_link_only_in_evidence_after_audit_at"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "backup_service/backup_4978",
+          "evidence_id": "evidence_93",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_10",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_10",
+      "expected_resources": [
+        "account_service/account_010",
+        "support_platform/support_002"
+      ],
+      "linked_expected": [
+        "support_platform/support_002"
+      ],
+      "missing_expected": [
+        "account_service/account_010"
+      ],
+      "missing_reasons": {
+        "account_service/account_010": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "support_platform/support_002",
+          "evidence_id": "evidence_61",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_11",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_32",
+      "expected_resources": [
+        "account_service/account_4248",
+        "analytics_platform/analytics_2034",
+        "integration_service/data_flow_9522",
+        "search_service/search_052",
+        "security_service/audit_record_9394",
+        "support_platform/support_864"
+      ],
+      "linked_expected": [
+        "account_service/account_4248",
+        "analytics_platform/analytics_2034",
+        "integration_service/data_flow_9522",
+        "search_service/search_052",
+        "security_service/audit_record_9394",
+        "support_platform/support_864"
+      ],
+      "missing_expected": [],
+      "missing_reasons": {},
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "analytics_platform/analytics_2034",
+          "evidence_id": "evidence_03",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "integration_service/data_flow_9522",
+          "evidence_id": "evidence_03",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "search_service/search_052",
+          "evidence_id": "evidence_03",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "support_platform/support_864",
+          "evidence_id": "evidence_03",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_12",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_12",
+      "expected_resources": [
+        "account_service/account_9797",
+        "analytics_platform/analytics_9914",
+        "security_service/audit_record_2945"
+      ],
+      "linked_expected": [
+        "account_service/account_9797",
+        "analytics_platform/analytics_9914",
+        "security_service/audit_record_2945"
+      ],
+      "missing_expected": [],
+      "missing_reasons": {},
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "analytics_platform/analytics_9914",
+          "evidence_id": "evidence_01",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_13",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_33",
+      "expected_resources": [
+        "account_service/account_9335",
+        "search_service/search_1308",
+        "security_service/audit_record_4816",
+        "support_platform/support_4218"
+      ],
+      "linked_expected": [
+        "account_service/account_9335",
+        "search_service/search_1308",
+        "security_service/audit_record_4816",
+        "support_platform/support_4218"
+      ],
+      "missing_expected": [],
+      "missing_reasons": {},
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "search_service/search_1308",
+          "evidence_id": "evidence_03",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "support_platform/support_4218",
+          "evidence_id": "evidence_03",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_14",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_37",
+      "expected_resources": [
+        "account_service/account_3677",
+        "backup_service/backup_3870",
+        "security_service/audit_record_987"
+      ],
+      "linked_expected": [
+        "account_service/account_3677",
+        "backup_service/backup_3870",
+        "security_service/audit_record_987"
+      ],
+      "missing_expected": [],
+      "missing_reasons": {},
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "backup_service/backup_3870",
+          "evidence_id": "evidence_03",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_15",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_15",
+      "expected_resources": [
+        "account_service/account_4745",
+        "integration_service/data_flow_9846",
+        "security_service/audit_record_1596"
+      ],
+      "linked_expected": [
+        "account_service/account_4745",
+        "integration_service/data_flow_9846",
+        "security_service/audit_record_1596"
+      ],
+      "missing_expected": [],
+      "missing_reasons": {},
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "integration_service/data_flow_9846",
+          "evidence_id": "evidence_01",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_16",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_53",
+      "expected_resources": [
+        "account_service/account_994",
+        "search_service/search_1007",
+        "security_service/audit_record_9528"
+      ],
+      "linked_expected": [
+        "account_service/account_994",
+        "search_service/search_1007",
+        "security_service/audit_record_9528"
+      ],
+      "missing_expected": [],
+      "missing_reasons": {},
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_994",
+          "evidence_id": "evidence_05",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "search_service/search_1007",
+          "evidence_id": "evidence_05",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_17",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_17",
+      "expected_resources": [
+        "account_service/account_4092",
+        "backup_service/backup_3245",
+        "security_service/audit_record_1797"
+      ],
+      "linked_expected": [
+        "account_service/account_4092",
+        "backup_service/backup_3245",
+        "security_service/audit_record_1797"
+      ],
+      "missing_expected": [],
+      "missing_reasons": {},
+      "extra_linked": [
+        "account_service/account_6523",
+        "identity_service/tombstone_17"
+      ],
+      "cited_evidence": [
+        {
+          "resource": "backup_service/backup_3245",
+          "evidence_id": "evidence_01",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_18",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_50",
+      "expected_resources": [
+        "account_service/account_5521",
+        "analytics_platform/analytics_037",
+        "integration_service/data_flow_4890",
+        "search_service/search_4013",
+        "security_service/audit_record_6645",
+        "support_platform/support_5569"
+      ],
+      "linked_expected": [
+        "analytics_platform/analytics_037",
+        "integration_service/data_flow_4890",
+        "search_service/search_4013",
+        "support_platform/support_5569"
+      ],
+      "missing_expected": [
+        "account_service/account_5521",
+        "security_service/audit_record_6645"
+      ],
+      "missing_reasons": {
+        "account_service/account_5521": "only_unlinked_records_plus_workflow_activity_in_request_window",
+        "security_service/audit_record_6645": "no_participant_reference"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "analytics_platform/analytics_037",
+          "evidence_id": "evidence_94",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "integration_service/data_flow_4890",
+          "evidence_id": "evidence_94",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "search_service/search_4013",
+          "evidence_id": "evidence_94",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "support_platform/support_5569",
+          "evidence_id": "evidence_94",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_19",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_19",
+      "expected_resources": [
+        "account_service/account_9102",
+        "search_service/search_6083",
+        "security_service/audit_record_6793",
+        "support_platform/support_9553"
+      ],
+      "linked_expected": [
+        "account_service/account_9102",
+        "search_service/search_6083",
+        "security_service/audit_record_6793",
+        "support_platform/support_9553"
+      ],
+      "missing_expected": [],
+      "missing_reasons": {},
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "search_service/search_6083",
+          "evidence_id": "evidence_01",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "support_platform/support_9553",
+          "evidence_id": "evidence_01",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_20",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_48",
+      "expected_resources": [
+        "account_service/account_5037",
+        "integration_service/data_flow_1770",
+        "search_service/search_4262",
+        "security_service/audit_record_5569"
+      ],
+      "linked_expected": [
+        "integration_service/data_flow_1770",
+        "search_service/search_4262"
+      ],
+      "missing_expected": [
+        "account_service/account_5037",
+        "security_service/audit_record_5569"
+      ],
+      "missing_reasons": {
+        "account_service/account_5037": "only_unlinked_records_plus_workflow_activity_in_request_window",
+        "security_service/audit_record_5569": "no_participant_reference"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "integration_service/data_flow_1770",
+          "evidence_id": "evidence_94",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "search_service/search_4262",
+          "evidence_id": "evidence_94",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_21",
+      "deletion_status": "COMPLETE",
+      "user_id": "user_21",
+      "expected_resources": [
+        "account_service/account_6440",
+        "analytics_platform/analytics_5335",
+        "security_service/audit_record_3737"
+      ],
+      "linked_expected": [
+        "security_service/audit_record_3737"
+      ],
+      "missing_expected": [
+        "account_service/account_6440",
+        "analytics_platform/analytics_5335"
+      ],
+      "missing_reasons": {
+        "account_service/account_6440": "only_unlinked_records_plus_workflow_activity_in_request_window",
+        "analytics_platform/analytics_5335": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_6440",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "analytics_platform/analytics_5335",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "security_service/audit_record_3737",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier"
+      ]
+    },
+    {
+      "case_id": "case_22",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_51",
+      "expected_resources": [
+        "account_service/account_4990",
+        "analytics_platform/analytics_4440",
+        "search_service/search_8911",
+        "security_service/audit_record_3482"
+      ],
+      "linked_expected": [
+        "analytics_platform/analytics_4440",
+        "search_service/search_8911",
+        "security_service/audit_record_3482"
+      ],
+      "missing_expected": [
+        "account_service/account_4990"
+      ],
+      "missing_reasons": {
+        "account_service/account_4990": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "analytics_platform/analytics_4440",
+          "evidence_id": "evidence_05",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "search_service/search_8911",
+          "evidence_id": "evidence_05",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_23",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_23",
+      "expected_resources": [
+        "account_service/account_410",
+        "export_service/export_7364",
+        "search_service/search_898",
+        "security_service/audit_record_4128"
+      ],
+      "linked_expected": [
+        "export_service/export_7364",
+        "search_service/search_898"
+      ],
+      "missing_expected": [
+        "account_service/account_410",
+        "security_service/audit_record_4128"
+      ],
+      "missing_reasons": {
+        "account_service/account_410": "only_unlinked_records_plus_workflow_activity_in_request_window",
+        "security_service/audit_record_4128": "identifier_link_only_in_evidence_after_audit_at"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "export_service/export_7364",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "search_service/search_898",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_24",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_24",
+      "expected_resources": [
+        "account_service/account_5334",
+        "search_service/search_5577",
+        "security_service/audit_record_7095"
+      ],
+      "linked_expected": [
+        "account_service/account_5334",
+        "search_service/search_5577"
+      ],
+      "missing_expected": [
+        "security_service/audit_record_7095"
+      ],
+      "missing_reasons": {
+        "security_service/audit_record_7095": "identifier_link_only_in_evidence_after_audit_at"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_5334",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "search_service/search_5577",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_25",
+      "deletion_status": "COMPLETE",
+      "user_id": "user_25",
+      "expected_resources": [
+        "account_service/account_3136",
+        "analytics_platform/analytics_1895",
+        "security_service/audit_record_451"
+      ],
+      "linked_expected": [
+        "security_service/audit_record_451"
+      ],
+      "missing_expected": [
+        "account_service/account_3136",
+        "analytics_platform/analytics_1895"
+      ],
+      "missing_reasons": {
+        "account_service/account_3136": "only_unlinked_records_plus_workflow_activity_in_request_window",
+        "analytics_platform/analytics_1895": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_3136",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "analytics_platform/analytics_1895",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "security_service/audit_record_451",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier"
+      ]
+    },
+    {
+      "case_id": "case_26",
+      "deletion_status": "COMPLETE",
+      "user_id": "user_26",
+      "expected_resources": [
+        "account_service/account_5684",
+        "analytics_platform/analytics_4566",
+        "backup_service/backup_3120",
+        "integration_service/data_flow_6244",
+        "security_service/audit_record_5416",
+        "support_platform/support_4715"
+      ],
+      "linked_expected": [
+        "backup_service/backup_3120",
+        "integration_service/data_flow_6244",
+        "security_service/audit_record_5416",
+        "support_platform/support_4715"
+      ],
+      "missing_expected": [
+        "account_service/account_5684",
+        "analytics_platform/analytics_4566"
+      ],
+      "missing_reasons": {
+        "account_service/account_5684": "identifier_link_only_in_evidence_after_audit_at",
+        "analytics_platform/analytics_4566": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_5684",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "analytics_platform/analytics_4566",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "backup_service/backup_3120",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "integration_service/data_flow_6244",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "security_service/audit_record_5416",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "support_platform/support_4715",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_27",
+      "deletion_status": "COMPLETE",
+      "user_id": "user_27",
+      "expected_resources": [
+        "account_service/account_3866",
+        "analytics_platform/analytics_4574",
+        "backup_service/backup_5970",
+        "integration_service/data_flow_2295",
+        "security_service/audit_record_3830",
+        "support_platform/support_4707"
+      ],
+      "linked_expected": [
+        "backup_service/backup_5970",
+        "integration_service/data_flow_2295",
+        "security_service/audit_record_3830",
+        "support_platform/support_4707"
+      ],
+      "missing_expected": [
+        "account_service/account_3866",
+        "analytics_platform/analytics_4574"
+      ],
+      "missing_reasons": {
+        "account_service/account_3866": "identifier_link_only_in_evidence_after_audit_at",
+        "analytics_platform/analytics_4574": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_3866",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "analytics_platform/analytics_4574",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "backup_service/backup_5970",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "integration_service/data_flow_2295",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "security_service/audit_record_3830",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "support_platform/support_4707",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_28",
+      "deletion_status": "COMPLETE",
+      "user_id": "user_28",
+      "expected_resources": [
+        "account_service/account_5482",
+        "analytics_platform/analytics_6077",
+        "backup_service/backup_838",
+        "integration_service/data_flow_2337",
+        "security_service/audit_record_9265",
+        "support_platform/support_2351"
+      ],
+      "linked_expected": [
+        "backup_service/backup_838",
+        "integration_service/data_flow_2337",
+        "security_service/audit_record_9265",
+        "support_platform/support_2351"
+      ],
+      "missing_expected": [
+        "account_service/account_5482",
+        "analytics_platform/analytics_6077"
+      ],
+      "missing_reasons": {
+        "account_service/account_5482": "only_unlinked_records_plus_workflow_activity_in_request_window",
+        "analytics_platform/analytics_6077": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_5482",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "analytics_platform/analytics_6077",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "backup_service/backup_838",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "integration_service/data_flow_2337",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "security_service/audit_record_9265",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "support_platform/support_2351",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_29",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_29",
+      "expected_resources": [
+        "account_service/account_7012",
+        "analytics_platform/analytics_5208",
+        "integration_service/data_flow_3827",
+        "search_service/search_1993",
+        "security_service/audit_record_3954",
+        "support_platform/support_5281"
+      ],
+      "linked_expected": [
+        "analytics_platform/analytics_5208",
+        "integration_service/data_flow_3827",
+        "search_service/search_1993",
+        "support_platform/support_5281"
+      ],
+      "missing_expected": [
+        "account_service/account_7012",
+        "security_service/audit_record_3954"
+      ],
+      "missing_reasons": {
+        "account_service/account_7012": "only_unlinked_records_plus_workflow_activity_in_request_window",
+        "security_service/audit_record_3954": "identifier_link_only_in_evidence_after_audit_at"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "analytics_platform/analytics_5208",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "integration_service/data_flow_3827",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "search_service/search_1993",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "support_platform/support_5281",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_30",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_30",
+      "expected_resources": [
+        "account_service/account_4163",
+        "analytics_platform/analytics_3697",
+        "integration_service/data_flow_8524",
+        "search_service/search_9359",
+        "security_service/audit_record_1707",
+        "support_platform/support_6477"
+      ],
+      "linked_expected": [
+        "analytics_platform/analytics_3697",
+        "integration_service/data_flow_8524",
+        "search_service/search_9359",
+        "support_platform/support_6477"
+      ],
+      "missing_expected": [
+        "account_service/account_4163",
+        "security_service/audit_record_1707"
+      ],
+      "missing_reasons": {
+        "account_service/account_4163": "only_unlinked_records_plus_workflow_activity_in_request_window",
+        "security_service/audit_record_1707": "identifier_link_only_in_evidence_after_audit_at"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "analytics_platform/analytics_3697",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "integration_service/data_flow_8524",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "search_service/search_9359",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "support_platform/support_6477",
+          "evidence_id": "evidence_92",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_31",
+      "deletion_status": "COMPLETE",
+      "user_id": "user_541",
+      "expected_resources": [
+        "account_service/account_4857",
+        "identity_service/tombstone_440",
+        "security_service/audit_record_6909"
+      ],
+      "linked_expected": [
+        "identity_service/tombstone_440",
+        "security_service/audit_record_6909"
+      ],
+      "missing_expected": [
+        "account_service/account_4857"
+      ],
+      "missing_reasons": {
+        "account_service/account_4857": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "account_service/account_4857",
+          "evidence_id": "evidence_51",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": false
+        },
+        {
+          "resource": "identity_service/tombstone_440",
+          "evidence_id": "evidence_51",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        },
+        {
+          "resource": "security_service/audit_record_6909",
+          "evidence_id": "evidence_51",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    },
+    {
+      "case_id": "case_32",
+      "deletion_status": "INCOMPLETE",
+      "user_id": "user_542",
+      "expected_resources": [
+        "account_service/account_8858",
+        "identity_service/tombstone_9178",
+        "security_service/audit_record_7068"
+      ],
+      "linked_expected": [
+        "identity_service/tombstone_9178",
+        "security_service/audit_record_7068"
+      ],
+      "missing_expected": [
+        "account_service/account_8858"
+      ],
+      "missing_reasons": {
+        "account_service/account_8858": "only_unlinked_records_plus_workflow_activity_in_request_window"
+      },
+      "extra_linked": [],
+      "cited_evidence": [
+        {
+          "resource": "identity_service/tombstone_9178",
+          "evidence_id": "evidence_51",
+          "captured_at_or_before_audit": true,
+          "index_has_it_for_resource": true
+        }
+      ],
+      "link_bases": [
+        "identifier",
+        "resource_id"
+      ]
+    }
+  ]
+}

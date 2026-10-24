@@ -44,3 +44,12 @@ Observed states include `FOUND`, `NOT_FOUND`, `IDENTIFIABLE`, `ANONYMIZED`, `RED
 - `COMPLETE` answers cite the snapshot that shows the compliant state, often one file for every step. Absence is proven by a snapshot of the table that lacks the record (for example `evidence_54` for `account_001`).
 - Treatment depends on record type: an `analytics_platform` record can need `DELETE_RECORD` in one case and `ANONYMIZE_RECORD` in another.
 - A few early samples (for example `account_004` in case_04) reference resource IDs that appear in no participant file, so a grounded solution cannot reproduce them exactly.
+
+## Evidence index findings (see docs/evidence_index.md)
+
+- In all 83 structured files, the in-file capture time equals the manifest `captured_at`. Later timestamps inside files are attribute values such as `expires_at`, `retention_until` and `retained_until`.
+- Every evidence ID cited in the 32 sample answers was captured at or before that case's `audit_at` (0 of 75 later), which supports the inclusive file-capture cutoff.
+- `evidence_13` and `evidence_36` each contain a ledger record dated two days after the file's own export. In `evidence_13`, `account_1417` is NOT_FOUND at the export time and FOUND two days later.
+- All 2,251 log lines match one of six syntaxes. Lookup lines (`*_started`, carrying `lookup_key` and similar) and state lines share a `trace_id`. No trace looks up more than one identifier.
+- Matching all 550 requests: 213 identifier matches rely only on a historical email or hash. No matched record carries an identifier owned by another user.
+- Resource-ID prefixes map one-to-one to systems (account, analytics, audit_record, backup, data_flow, export, legal_hold, search, support, tombstone).

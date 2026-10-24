@@ -177,3 +177,164 @@ branch=claude/ecstatic-fermi-e5tezy
 repo_root=/home/user/hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
+
+## [2026-10-24T14:50:28Z] Evidence index, audit_at cutoffs and identifier matching
+
+User Prompt (verbatim, secrets redacted):
+NEXT TASK: Build the Evidence Index and Audit Pipeline
+Continue working on the existing HackerRank Orchestrate October 2026 project.
+Do not restart the project. Do not rewrite working modules. Build on the existing implementation.
+Current Progress
+Already implemented:
+
+* `code/ghostaudit/data.py` — dataset paths, CSV loading, UTC timestamp parsing.
+* `code/ghostaudit/identity.py` — time-aware identity resolution.
+* `code/tests/test_identity.py` — 8 passing unit tests.
+* `docs/dataset_findings.md` — findings from dataset inspection.
+* `log.txt` — required development transcript.
+
+Work on the existing branch: `claude/ecstatic-fermi-e5tezy`.
+Read `AGENTS.md` and all relevant project instructions before making changes. Continue following the repository's transcript logging requirements.
+Objective
+Build the next working component: a unified evidence index that can support accurate deletion audits at each request's `audit_at` timestamp.
+Do not attempt to solve all 518 cases in one untested step.
+Task 1 — Inspect Existing Work
+Before editing anything:
+
+1. Read `AGENTS.md`.
+2. Review `docs/dataset_findings.md`.
+3. Inspect the current `code/ghostaudit/` modules and tests.
+4. Inspect the evidence manifest and the existing parsers, if any.
+5. Verify the current test suite.
+
+Preserve all existing working functionality.
+Report only verified findings. If something cannot be confirmed from the repository, explicitly say so.
+Task 2 — Implement the Evidence Index
+Create or extend an evidence indexing module within `code/ghostaudit/`.
+The index must normalize evidence from all supplied formats:
+
+* SQL or SQLite-compatible snapshots
+* Logs
+* JSON
+* Plain text
+* PDFs
+* PNG screenshots
+
+First inspect the actual files and their structures. Implement parsers based on observed formats, not assumed schemas.
+Every extracted evidence record should preserve, wherever available:
+
+* `system_id`
+* `resource_id`
+* Record type or category
+* State
+* Identifiers associated with the record
+* Timestamp
+* Source file identifier required by the challenge
+* Any source activity or audit identifier, if present
+* Original source location or sufficient metadata to trace the finding back to its evidence
+
+Use a consistent internal schema, but do not invent missing fields or evidence identifiers.
+For screenshots, use the available local OCR tooling only if it is installed and can be tested. PDFs may contain extractable text; inspect them before deciding whether OCR is necessary.
+Important constraints:
+
+* Do not use an LLM or external API merely to parse structured evidence.
+* Do not require an API key for the baseline pipeline.
+* Do not treat filenames alone as proof of record state.
+* Do not fabricate evidence records when parsing fails.
+* Record parsing failures explicitly so they can be investigated.
+* Never silently discard an evidence file.
+
+Produce a machine-readable parse summary showing how many files were discovered, parsed successfully, partially parsed, or failed, with the affected filenames and reasons.
+Task 3 — Enforce Historical Cutoffs
+For every request, evidence must be interpreted relative to that case's `audit_at`.
+Implement timestamp handling so that evidence after `audit_at` cannot establish the state at the earlier audit time.
+Handle timestamps consistently in UTC.
+If a record has no usable timestamp, do not silently assign it an arbitrary time. Define and test a conservative handling rule based on the challenge data and document it.
+Do not confuse an event's timestamp with the time a file was created or modified.
+Task 4 — Resolve Evidence Using Identifiers
+Use the existing identity resolver from `identity.py`.
+For each deletion request:
+
+1. Resolve the person using the request email and identity history.
+2. Obtain the current and historical identifiers available up to `audit_at`.
+3. Match evidence using exact identifier relationships.
+4. Account for case-insensitive email matching where justified by the existing implementation.
+5. Avoid matching records solely because their timestamps overlap.
+6. Avoid fuzzy matching names or emails unless the challenge's explicit rules justify it.
+
+The dataset contains decoys. A similar name, similar email, or nearby timestamp is not sufficient proof that a record belongs to the target user.
+Do not modify the identity resolver unless a reproducible test exposes a defect.
+Task 5 — Build Evidence-Index Tests
+Add focused tests covering:
+
+* Every discovered evidence format.
+* Correct extraction of system, resource, state, identifiers, and timestamps.
+* Evidence before and after `audit_at`.
+* Missing or malformed timestamps.
+* Duplicate evidence references.
+* Decoy records with similar identifiers.
+* Parser failures and partial extraction.
+* Evidence provenance.
+* Historical email and hash matching.
+
+Use actual dataset examples for integration tests and synthetic records for isolated edge cases.
+Synthetic records must be clearly marked as synthetic. Never mix synthetic evidence into the production index.
+Do not write tests that merely confirm the implementation's own assumptions. Derive expected values from the actual source files or explicit challenge rules.
+Task 6 — Validate Against Sample Cases
+Once the index is implemented:
+
+1. Run the complete existing test suite.
+2. Run the evidence parsers over the actual dataset.
+3. Inspect the parse summary.
+4. Trace several sample cases from request to resolved identity to matched evidence.
+5. Include cases with different evidence formats and historical identifiers.
+6. Compare the resulting evidence relationships with the sample outputs where applicable.
+
+Do not build the final decision engine until the evidence index is sufficiently validated.
+Do not hardcode sample answers into production logic.
+Task 7 — Deliver a Concise Engineering Report
+At the end, report:
+
+1. Files created or modified.
+2. Tests actually executed and their results.
+3. Evidence files discovered and successfully parsed.
+4. Files with parsing failures or unresolved formats.
+5. Sample cases traced successfully.
+6. Known limitations and unresolved questions.
+7. The exact command to run the next stage.
+
+Do not claim complete coverage unless every discovered evidence file has been accounted for.
+Strict Anti-Hallucination Rules
+These rules are mandatory:
+
+1. Never invent resource IDs, evidence IDs, timestamps, states, or policy rules.
+2. Never assume a missing record proves deletion unless the evidence and challenge rules support that conclusion.
+3. Never treat a reported workflow status as authoritative proof.
+4. Never infer identity from similar names or timestamps alone.
+5. Never assume an operation succeeded merely because a log mentions it; apply the challenge's evidence rules.
+6. Never fabricate expected outputs to make tests pass.
+7. Never hardcode sample-specific answers into the general algorithm.
+8. Never claim a test passed unless it was executed.
+9. If the source is ambiguous, preserve the uncertainty and report the issue.
+10. Keep generated artifacts reproducible and keep the dataset unchanged.
+
+Definition of done: The evidence index can process the supplied evidence, preserve provenance, respect audit-time boundaries, pass its tests, and provide traceable evidence for the next stage. It does not need to produce the final 518-row submission yet.
+
+Agent Response Summary:
+Surveyed all 94 evidence files and built code/ghostaudit/evidence/ with parsers for the observed SQL, JSON, log, text, PDF and PNG layouts. It produces records with provenance, snapshot scopes and a parse summary in which every unit is used or explained (94 files: 90 parsed, 4 partial, 0 failed). Enforced an inclusive audit_at cutoff: the record time and the manifest capture time must both be at or before audit_at, and a record with no usable time is never visible. Matching uses exact identifiers via the unmodified identity resolver, plus one hop over resource IDs; names and timestamps alone never link. 54 tests pass. Sample validation links 77 of 111 expected resources and finds 59 of 75 cited evidence items; every miss is explained (23 identifier-free plus workflow window only, 8 linked only by post-audit files, 3 never referenced). Local Tesseract OCR replaced any need for an LLM or API key.
+
+Actions:
+* Created code/ghostaudit/evidence/ (model.py, sql.py, jsonfiles.py, logs.py, documents.py, activity.py, index.py, __init__.py)
+* Created code/index_evidence.py, code/evaluation/validate_evidence.py, code/tests/test_evidence.py
+* Created docs/evidence_index.md and requirements.txt; updated docs/dataset_findings.md and .gitignore
+* Generated artifacts/evidence_parse_summary.json and artifacts/sample_evidence_validation.json (deterministic; cold and cached builds identical)
+* Ran python3 -W error::ResourceWarning -m unittest discover -s code/tests (54 tests OK)
+* Appended this entry, committed and pushed
+
+Context:
+tool=Claude Code
+model=claude-opus-5-5
+branch=claude/ecstatic-fermi-e5tezy
+repo_root=/home/user/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
