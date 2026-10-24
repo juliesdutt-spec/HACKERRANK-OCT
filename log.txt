@@ -136,3 +136,25 @@ branch=claude/ecstatic-fermi-e5tezy
 repo_root=/home/user/hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
+
+## [2026-10-24T14:20:41Z] Evidence survey, linkage pattern and OCR decision
+
+User Prompt (verbatim, secrets redacted):
+NOW WHAT SHOULD WE DO BRO
+
+Agent Response Summary:
+Continued with the evidence index by surveying all 94 evidence files (SQL, logs, JSON, text, PDF, PNG) and tracing sample cases through evidence and activity. Found that all formats encode the same unit (system, resource, record type, state, identifier, time), that every sample answer verifies the account as absent and any retained security record as present, that activity windows of different cases interleave so linking must go through identifiers, and that a few sample resources (e.g. account_004) appear in no participant file. Installed Tesseract OCR locally; it reads the screenshots' identifiers exactly, so no LLM key is needed. Saved the findings to docs/dataset_findings.md. The user switched the session model from claude-sonnet-5-5 to claude-opus-5-5 during this turn.
+
+Actions:
+* Read-only inspection of dataset/evidence (SQL, logs, JSON, text), pdftotext on the 4 PDFs, viewed 2 PNGs
+* apt-get install tesseract-ocr; OCR test on 2 screenshots
+* Created docs/dataset_findings.md
+* Appended this entry, committed and pushed
+
+Context:
+tool=Claude Code
+model=claude-opus-5-5
+branch=claude/ecstatic-fermi-e5tezy
+repo_root=/home/user/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
