@@ -9,6 +9,9 @@ Status semantics (problem statement and AGENTS.md section 6.5):
   established is still COMPLETE, because INCOMPLETE needs evidence of an unmet requirement;
   its confidence is "unverified" and the unknown resources are listed.
 Reported workflow statuses and activity results are kept as claims and never decide anything.
+A linked resource whose evidence all lies in the evidence window (requested_at..audit_at) of the
+same person's earlier request, before this request was made, is listed under prior_resources and
+does not take part: that evidence was the subject of the earlier request.
 """
 from __future__ import annotations
 
@@ -59,12 +62,22 @@ def _contradicting_content(matches: list[MatchedRecord], keys) -> list[str]:
     return []
 
 
+REQUEST_FILES = ("sample_deletion_requests.csv", "deletion_requests.csv")
+
+
 class AuditEngine:
-    def __init__(self, index: EvidenceIndex, identity: IdentityIndex, rules):
+    def __init__(self, index: EvidenceIndex, identity: IdentityIndex, rules, requests: list[dict[str, str]] = ()):
         self.index = index
         self.identity = identity
         self.rules = rules
         self.owners = identifier_owners(identity)
+        # every request's evidence window, per person, to recognise evidence of an earlier request
+        self.windows: dict[str, list[tuple[str, datetime, datetime]]] = defaultdict(list)
+        for request in requests:
+            audit_at = parse_time(request["audit_at"])
+            user_id = identity.resolve_email(request["email"], audit_at)
+            if user_id:
+                self.windows[user_id].append((request["case_id"], parse_time(request["requested_at"]), audit_at))
         self.prefix_categories = learn_prefix_categories([r for r in index.records if r.source == "file"])
         self._by_resource: dict[str, list] = defaultdict(list)
         for record in index.records:
@@ -75,7 +88,15 @@ class AuditEngine:
     def build(cls, dataset_dir: Path = DATASET_DIR, **index_options) -> "AuditEngine":
         index = EvidenceIndex.build(dataset_dir, **index_options)
         identity = IdentityIndex(read_csv("user_identities.csv", dataset_dir), read_csv("user_audit_log.csv", dataset_dir))
-        return cls(index, identity, load_rules(dataset_dir))
+        requests = [row for name in REQUEST_FILES if (Path(dataset_dir) / name).is_file() for row in read_csv(name, dataset_dir)]
+        return cls(index, identity, load_rules(dataset_dir), requests)
+
+    def _earlier_request_covering(self, user_id: str, case_id: str, requested_at: datetime, times: list[datetime]) -> str | None:
+        """The same person's earlier request whose evidence window holds all of these times."""
+        for other_case, other_requested, other_audit in sorted(self.windows.get(user_id, []), key=lambda w: (w[1], w[0])):
+            if other_case != case_id and other_audit <= requested_at and all(other_requested <= t <= other_audit for t in times):
+                return other_case
+        return None
 
     def audit(self, request: dict[str, str]) -> dict[str, Any]:
         audit_at = parse_time(request["audit_at"])
@@ -88,6 +109,7 @@ class AuditEngine:
             "identifiers_used": None,
             "resources": [],
             "excluded_resources": [],
+            "prior_resources": [],
             "unattached_mentions": [],
             "intake_claims": [],
             "ambiguities": [],
@@ -138,11 +160,26 @@ class AuditEngine:
 
     def _assess(self, case: CaseEvidence, audit_at: datetime, result: dict[str, Any]):
         keys = identity_keys(self.identity.identifiers(case.user_id, audit_at))
+        requested_at = parse_time(result["request"]["requested_at"])
         assessments = []
         for resource_id, matches in _group_by_resource(case.matches):
             systems = [m.record.system_id for m in matches if m.record.system_id and not m.record.is_claim] or \
                       [m.record.system_id for m in matches if m.record.system_id]
             system_id = Counter(systems).most_common(1)[0][0] if systems else None
+            observed = [m.record.observed_at for m in matches if not m.record.is_claim and m.record.observed_at]
+            earlier = (self._earlier_request_covering(case.user_id, result["case_id"], requested_at, observed)
+                       if observed and max(observed) < requested_at else None)
+            if earlier:
+                # All of this resource's evidence was captured for the same person's earlier request,
+                # before this request was made; every evidence item the sample answers cite was
+                # captured at or after its own case's requested_at.
+                result["prior_resources"].append({
+                    "system_id": system_id, "resource_id": resource_id,
+                    "latest_evidence_at": max(observed).isoformat(), "earlier_request": earlier,
+                    "evidence": sorted({m.record.evidence_id for m in matches if not m.record.is_claim}),
+                    "reason": f"all evidence lies in the evidence window of the person's earlier request {earlier}",
+                })
+                continue
             if len(set(systems)) > 1:
                 result["ambiguities"].append(f"{resource_id}: records name several systems {sorted(set(systems))}; using {system_id}")
             claim_only = all(m.claim_only for m in matches)

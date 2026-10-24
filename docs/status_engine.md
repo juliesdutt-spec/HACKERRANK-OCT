@@ -7,6 +7,8 @@ The engine combines four modules:
 - the evidence index from `docs/evidence_index.md` supplies the linked evidence.
 
 ```text
+python3 code/main.py                              # 518 requests -> output.csv (validated) + artifacts/case_audits_main.json
+python3 code/evaluation/main.py                   # predict and score the 32 samples -> artifacts/sample_scores.json
 python3 code/audit_cases.py                       # samples -> artifacts/case_audits_sample.json
 python3 code/audit_cases.py --set main            # 518 requests -> artifacts/case_audits_main.json (intermediate, not output.csv)
 python3 code/audit_cases.py --case case_12        # print one case's full audit
@@ -75,6 +77,12 @@ How a resource's state at `audit_at` is established:
 
 **Claim-only links.** A resource linked to the person only through an activity claim (e.g. `LINK_RESOURCE_IDENTITY`) is marked `claim_only`. If that resource's own evidence content names other direct identifiers, the link is contradicted and the resource is excluded. Example: `marketing_001` is claimed for `user_09`, but the screenshot shows `sj.park@naver.com`.
 
+**Earlier requests of the same person.** Some people made two deletion requests. A linked resource is set aside under `prior_resources` when all of its evidence lies in the evidence window (`requested_at` to `audit_at`) of the same person's earlier request, before the current request was made. Such a resource does not take part in the current case. All 75 evidence items cited in the sample answers were captured at or after their own case's `requested_at`. In this data the rule sets aside exactly two resources:
+- `account_6523` in sample `case_17`, which belongs to `case_46`;
+- `export_1260` in `case_33`, which belongs to `case_52`.
+
+Old evidence of a person with no earlier request still counts. For example, `audit_record_3753` stays in `case_34`. This rule was prompted by the one extra step it removed in case_17.
+
 ## 4. Status
 
 | Status | When | Confidence |
@@ -92,18 +100,49 @@ Missing or inconclusive evidence never makes a case INCOMPLETE. The reported wor
 - Findings: 41/41 expected findings (system, resource, kind) found, with 0 extra.
 - Treatment: the required action agrees with the sample's final verification on 77/77 resources both sides know.
 
-**Main set (518 requests):** 350 INCOMPLETE (347 high, 3 medium), 158 COMPLETE (51 verified, 107 unverified), 10 NOT_APPLICABLE.
-- 106 of the 107 unverified COMPLETE cases have no account resource linked by identifiers visible at `audit_at`. This is the same linkage gap described in `docs/evidence_index.md`.
+**Main set (518 requests):** 349 INCOMPLETE (347 high, 2 medium), 159 COMPLETE (51 verified, 108 unverified), 10 NOT_APPLICABLE.
+- Most unverified COMPLETE cases have no account resource linked by identifiers visible at `audit_at`. This is the same linkage gap described in `docs/evidence_index.md`.
 - 9 main cases carry explicit ambiguity notes. All involve screenshot evidence or claim-only links:
   - `case_39`: connector state not readable from OCR.
   - `case_53`: support record category unresolved.
   - `case_55`: backup restore setting not shown.
   - `case_61`: storage object named only by file name.
   - `case_46`: tombstone known only from a claim.
-  - `case_33`, `case_35`, `case_52`: findings rest on claim-only links.
+  - `case_35`, `case_52`: findings rest on claim-only links.
+  - `case_33`: its claim-linked export belongs to its earlier request `case_52`.
   - `case_63`: contradicted claim excluded.
 
-## 6. Limitations
+## 6. Steps and output (`code/ghostaudit/steps.py`, `code/ghostaudit/output.py`, `code/main.py`)
+
+- **NOT_APPLICABLE:** `[]`.
+- **COMPLETE:** one VERIFICATION step per compliant resource, with the operation its rule requires, citing the latest deciding evidence (or the later snapshot that no longer lists the resource). A resource whose state cannot be proven gets no step, and a note says why. Six main cases therefore have `[]`.
+- **INCOMPLETE:**
+  - For each violation, a FINDING that cites the deciding evidence, plus the REMEDIATION that fixes it:
+    - remaining record: DELETE_RECORD;
+    - exposed identifiers: REDACT_RECORD or ANONYMIZE_RECORD, as the rule requires;
+    - active flow: DISABLE_DATA_FLOW;
+    - restore risk: BLOCK_RESTORE.
+  - A VERIFICATION of the required final state for every planned resource: remediated ones, already-compliant ones, and evidence-linked resources whose state is unknown but whose rule is known.
+  - Remediation and verification steps have `evidence_id` `""`.
+  - Claim-only resources with an unknown state are not planned.
+- **Order:** phase, then the operation order of the problem statement's table, then `system_id` and `resource_id`. `step_no` counts from 1. All 32 sample answers follow this order.
+- **File format:** `output.csv` rows are sorted by the case number, `case_33` to `case_550`, the same order as `deletion_requests.csv`. Plain text sorting would put `case_100` before `case_33`. JSON is compact, as in `sample_output.csv`.
+- **Validator:** `validate_output` checks the header, one row per request, row order, allowed statuses, phases, operations and states, numbering, ordering, the evidence rules for each phase and status, and that every cited ID exists and was captured at or before `audit_at`.
+
+**Sample scores** (`python3 code/evaluation/main.py`):
+
+| Metric | Result |
+| --- | --- |
+| Status accuracy | 100% |
+| Step precision | 100% (159 matched, 0 extra) |
+| Step recall | 82.4% (34 missing) |
+| Step F1 | 90.3% |
+| Field-level accuracy (positional) | 71.7% |
+| Sequence accuracy | 31.2% (10/32 cases exact) |
+
+All 34 missing steps are the 34 resources the evidence linkage cannot reach (23 time-window only, 8 post-audit only, 3 unreferenced). A missing account step shifts every later position, which is why the positional field accuracy is low.
+
+## 7. Limitations
 
 - **Screenshots.** The state of a resource on a screenshot can only be read when it sits on the same OCR line, which most status labels (Healthy, Ready, Retained reference) do not. Those resources stay UNKNOWN. A layout-aware reader or a vision model would be needed, and no sample covers screenshot cases, so neither could be validated here.
 - **Linkage.** Resources linkable only through workflow time windows, or only through files captured after `audit_at`, are not linked (see `docs/evidence_index.md`). This lowers confidence but has not changed a sample status.

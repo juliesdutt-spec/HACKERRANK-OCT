@@ -88,13 +88,24 @@ def build_synthetic_dataset(root: Path) -> None:
         {"resource_id": "search_1", "email": "ada.new@example.test"}]}), encoding="utf-8")
     (evidence / "untimed.json").write_text(json.dumps({"records": [{"resource_id": "search_2", "email": "ada.new@example.test"}]}),
                                            encoding="utf-8")
+    (evidence / "old.json").write_text(json.dumps({"exported_at": "2026-07-01T00:00:00Z", "records": [
+        {"resource_id": "search_7", "email": "ada.old@example.test"},
+        {"resource_id": "audit_record_9", "subject_reference": "user_9103", "retention_until": "2033-01-01T00:00:00Z"}]}),
+        encoding="utf-8")
+    # user_9101 made an earlier request whose evidence window holds old.json's capture time
+    write_csv(root / "deletion_requests.csv",
+              ["case_id", "email", "requested_at", "reported_status", "reported_at", "audit_at", "request_text"],
+              [["SYNTHETIC_c0", "ada.old@example.test", "2026-06-25T00:00:00Z", "COMPLETE", "2026-06-26T00:00:00Z",
+                "2026-07-02T00:00:00Z", DELETE_TEXT]])
     write_csv(root / "evidence_files.csv", ["file_id", "file_path", "origin", "captured_at"], [
         ["SYNTHETIC_bundle", "evidence/records/bundle.json", "SYNTHETIC", "2026-09-01T00:00:00Z"],
         ["SYNTHETIC_export", "evidence/records/export.json", "SYNTHETIC", "2026-09-10T00:00:00Z"],
         ["SYNTHETIC_ledger", "evidence/records/ledger.json", "SYNTHETIC", "2026-09-12T00:00:00Z"],
         ["SYNTHETIC_later", "evidence/records/later.json", "SYNTHETIC", "2026-10-01T00:00:00Z"],
         ["SYNTHETIC_untimed", "evidence/records/untimed.json", "SYNTHETIC", ""],
+        ["SYNTHETIC_old", "evidence/records/old.json", "SYNTHETIC", "2026-07-01T00:00:00Z"],
     ])
+    # the request file is also read by the engine; the test requests themselves are built in memory
 
 
 def request(case_id, email, text=DELETE_TEXT, audit_at=AUDIT_AT):
@@ -151,6 +162,18 @@ class SyntheticEngineTests(unittest.TestCase):
         self.assertNotIn("search_2", linked)  # no usable time
         later = self.engine.audit(request("SYNTHETIC_c1b", "ada.old@example.test", audit_at="2026-10-02T00:00:00Z"))
         self.assertIn("search_1", by_resource(later))
+
+    def test_evidence_of_an_earlier_request_is_set_aside(self):
+        # search_7 is only observed on 2026-07-01, inside the window of user_9101's earlier request SYNTHETIC_c0
+        result = self.engine.audit(request("SYNTHETIC_c1", "ada.old@example.test"))
+        self.assertNotIn("search_7", by_resource(result))
+        self.assertEqual([(p["resource_id"], p["earlier_request"]) for p in result["prior_resources"]], [("search_7", "SYNTHETIC_c0")])
+
+    def test_old_evidence_without_an_earlier_request_still_counts(self):
+        # audit_record_9 (user_9103) is also observed on 2026-07-01, but user_9103 made no earlier request
+        result = self.engine.audit(request("SYNTHETIC_c3", "bo@example.test"))
+        self.assertEqual(by_resource(result)["audit_record_9"]["outcome"], "COMPLIANT")
+        self.assertEqual(result["prior_resources"], [])
 
     def test_claim_link_contradicted_by_content_is_excluded(self):
         result = self.engine.audit(request("SYNTHETIC_c1", "ada.old@example.test"))

@@ -1,4 +1,4 @@
-"""Run the deletion audit and write the per-case intermediate results (not output.csv).
+"""Run the deletion audit and write the per-case audit trail with steps (not output.csv; see main.py).
 
     python3 code/audit_cases.py                         # samples -> artifacts/case_audits_sample.json
     python3 code/audit_cases.py --set main              # 518 requests -> artifacts/case_audits_main.json
@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from ghostaudit.audit import AuditEngine  # noqa: E402
 from ghostaudit.data import REPO_ROOT, read_csv  # noqa: E402
+from ghostaudit.steps import build_steps  # noqa: E402
 
 REQUEST_FILES = {"sample": "sample_deletion_requests.csv", "main": "deletion_requests.csv"}
 
@@ -28,13 +29,19 @@ def main(argv: list[str] | None = None) -> int:
 
     engine = AuditEngine.build()
     requests = read_csv(REQUEST_FILES[args.set])
+
+    def audit(request):
+        result = engine.audit(request)
+        result["steps"], result["step_notes"] = build_steps(result)
+        return result
+
     if args.case:
         wanted = set(args.case)
         for request in requests:
             if request["case_id"] in wanted:
-                print(json.dumps(engine.audit(request), indent=2, ensure_ascii=False))
+                print(json.dumps(audit(request), indent=2, ensure_ascii=False))
         return 0
-    results = sorted((engine.audit(r) for r in requests), key=lambda r: r["case_id"])
+    results = sorted((audit(r) for r in requests), key=lambda r: r["case_id"])
     out = REPO_ROOT / "artifacts" / f"case_audits_{args.set}.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(results, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")

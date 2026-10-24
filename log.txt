@@ -508,3 +508,27 @@ branch=claude/ecstatic-fermi-e5tezy
 repo_root=/home/user/hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
+
+## [2026-10-24T15:47:43Z] Steps generator, output.csv writer, validator and scorer
+
+User Prompt (verbatim, secrets redacted):
+keep screenshots unknown, build the steps generator next
+
+Agent Response Summary:
+Kept screenshot states unknown as asked; resources linkable only by timing also stay unlinked, consistent with the earlier rules. Built steps.py, which turns each audit into ordered FINDING/REMEDIATION/VERIFICATION steps following the contract and the verified sample pattern. Built output.py (writer plus a contract validator), code/main.py, which writes output.csv for all 518 requests (0 validation errors, 6 COMPLETE cases with no citable step), and code/evaluation/main.py, which scores status, step, field and sequence accuracy. On the samples: status 100%, step precision 100%, recall 82.4% (all 34 misses are known linkage gaps), F1 90.3%, field 71.7%, sequence 31.2%. Added a narrow rule setting aside resources whose evidence all belongs to the same person's earlier request (2 resources in the whole data), and disclosed that sample case_17 prompted it. 106 tests pass and output is deterministic.
+
+Actions:
+* Created code/ghostaudit/steps.py, code/ghostaudit/output.py, code/tests/test_steps.py
+* Implemented code/main.py and code/evaluation/main.py (were empty stubs)
+* Modified code/ghostaudit/audit.py (request windows, prior_resources), code/audit_cases.py, code/tests/test_audit.py, docs/status_engine.md
+* Generated output.csv, artifacts/sample_predictions.csv, artifacts/sample_scores.json and refreshed the case audit trails (md5-identical across reruns)
+* Ran python3 -W error::ResourceWarning -m unittest discover -s code/tests (106 tests OK)
+* Appended this entry, committed and pushed
+
+Context:
+tool=Claude Code
+model=claude-opus-5-5
+branch=claude/ecstatic-fermi-e5tezy
+repo_root=/home/user/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
