@@ -32,6 +32,7 @@ class MatchedRecord:
     matched_identifiers: frozenset[tuple[str, str]]
     via: str | None  # the linked resource that brought the record in, for non-identifier matches
     foreign_identifiers: frozenset[tuple[str, str]]  # identifiers on the record owned only by other users
+    claim_only: bool = False  # True when the link rests only on activity claims, not on evidence content
 
 
 @dataclass
@@ -179,16 +180,23 @@ class EvidenceIndex:
         direct = {id(r): r.identifiers & keys for r in visible if r.identifiers & keys}
         linked = {r.resource_id for r in visible if id(r) in direct and r.resource_id}
         related = {x for r in visible if id(r) in direct for x in r.related_resources} - linked
+        # the same sets, built from evidence content only (activity rows are claims)
+        content_linked = {r.resource_id for r in visible if id(r) in direct and r.resource_id and not r.is_claim}
+        content_related = {x for r in visible if id(r) in direct and not r.is_claim for x in r.related_resources}
         matches = []
         for record in visible:
             if id(record) in direct:
                 basis, via, matched = "identifier", None, frozenset(direct[id(record)])
+                claim_only = record.is_claim
             elif record.resource_id in linked:
                 basis, via, matched = "resource_id", record.resource_id, frozenset()
+                claim_only = record.resource_id not in content_linked
             elif record.resource_id in related:
                 basis, via, matched = "related_resource", record.resource_id, frozenset()
+                claim_only = record.resource_id not in content_related
             elif record.related_resources & linked:
                 basis, via, matched = "references_linked_resource", min(record.related_resources & linked), frozenset()
+                claim_only = record.is_claim  # the relationship is stated by this record itself
             else:
                 continue
             foreign = frozenset()
@@ -197,7 +205,7 @@ class EvidenceIndex:
                     key for key in record.identifiers
                     if key[0] in LINK_KINDS and key not in keys and owners.get(key) and ids.user_id not in owners[key]
                 )
-            matches.append(MatchedRecord(record, basis, matched, via, foreign))
+            matches.append(MatchedRecord(record, basis, matched, via, foreign, claim_only))
         matches.sort(key=lambda m: (str(m.record.system_id), str(m.record.resource_id), m.record.observed_at, m.record.evidence_id, m.record.location))
         resource_ids = linked | related
         scopes = [s for s in self.scopes if s.visible_at(audit_at) and (s.resource_ids & resource_ids or s.system_id in {m.record.system_id for m in matches})]

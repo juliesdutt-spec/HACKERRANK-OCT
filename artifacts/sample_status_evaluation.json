@@ -1,0 +1,381 @@
+{
+  "cases": 32,
+  "status_matches": 32,
+  "status_accuracy": 1.0,
+  "confusion_expected_vs_predicted": {
+    "COMPLETE->COMPLETE": 10,
+    "INCOMPLETE->INCOMPLETE": 22
+  },
+  "findings": {
+    "expected_and_found": 41,
+    "expected_not_found": 0,
+    "found_not_expected": 0
+  },
+  "treatment": {
+    "agree": 77,
+    "compared": 77,
+    "disagreements": []
+  },
+  "case_details": [
+    {
+      "case_id": "case_01",
+      "expected_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "match": true,
+      "confidence": "unverified",
+      "status_reason": "no evidence visible at audit_at links any resource to this person; no violation found",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_02",
+      "expected_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "match": true,
+      "confidence": "unverified",
+      "status_reason": "no evidence visible at audit_at links any resource to this person; no violation found",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_03",
+      "expected_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "match": true,
+      "confidence": "verified",
+      "status_reason": "every linked resource meets its rule at audit_at",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_04",
+      "expected_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "match": true,
+      "confidence": "unverified",
+      "status_reason": "no evidence visible at audit_at links any resource to this person; no violation found",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_05",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD account_service/account_005",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_06",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD search_service/search_001",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": [
+        "account_service/account_006: state not established (only workflow claims mention this resource; its state cannot be established)"
+      ]
+    },
+    {
+      "case_id": "case_07",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD support_platform/support_001",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": [
+        "object_storage/object_19: linked to the person only by a workflow claim",
+        "object_storage/object_19: state not established (only workflow claims mention this resource; its state cannot be established)"
+      ]
+    },
+    {
+      "case_id": "case_08",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD export_service/export_001",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_09",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): RESTORE_RISK backup_service/backup_4978",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_10",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD support_platform/support_002",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_11",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): EXPOSED_PII analytics_platform/analytics_2034, ACTIVE_DATA_FLOW integration_service/data_flow_9522, REMAINING_RECORD search_service/search_052, EXPOSED_PII support_platform/support_864",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_12",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD analytics_platform/analytics_9914",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_13",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD search_service/search_1308, REMAINING_RECORD support_platform/support_4218",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_14",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): RESTORE_RISK backup_service/backup_3870",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_15",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): ACTIVE_DATA_FLOW integration_service/data_flow_9846",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_16",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD account_service/account_994, REMAINING_RECORD search_service/search_1007",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_17",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): RESTORE_RISK backup_service/backup_3245",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": [
+        "identity_service/tombstone_17: linked to the person only by a workflow claim",
+        "identity_service/tombstone_17: state not established (only workflow claims mention this resource; its state cannot be established)"
+      ]
+    },
+    {
+      "case_id": "case_18",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): EXPOSED_PII analytics_platform/analytics_037, ACTIVE_DATA_FLOW integration_service/data_flow_4890, REMAINING_RECORD search_service/search_4013, EXPOSED_PII support_platform/support_5569",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_19",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD search_service/search_6083, EXPOSED_PII support_platform/support_9553",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_20",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): ACTIVE_DATA_FLOW integration_service/data_flow_1770, REMAINING_RECORD search_service/search_4262",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_21",
+      "expected_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "match": true,
+      "confidence": "unverified",
+      "status_reason": "no violation found; the account record itself is not confirmed absent",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_22",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): EXPOSED_PII analytics_platform/analytics_4440, REMAINING_RECORD search_service/search_8911",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_23",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD export_service/export_7364, REMAINING_RECORD search_service/search_898",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_24",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): REMAINING_RECORD account_service/account_5334, REMAINING_RECORD search_service/search_5577",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_25",
+      "expected_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "match": true,
+      "confidence": "unverified",
+      "status_reason": "no violation found; the account record itself is not confirmed absent",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_26",
+      "expected_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "match": true,
+      "confidence": "unverified",
+      "status_reason": "no violation found; the account record itself is not confirmed absent",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_27",
+      "expected_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "match": true,
+      "confidence": "unverified",
+      "status_reason": "no violation found; the account record itself is not confirmed absent",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_28",
+      "expected_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "match": true,
+      "confidence": "unverified",
+      "status_reason": "no violation found; the account record itself is not confirmed absent",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_29",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): EXPOSED_PII analytics_platform/analytics_5208, ACTIVE_DATA_FLOW integration_service/data_flow_3827, REMAINING_RECORD search_service/search_1993, EXPOSED_PII support_platform/support_5281",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_30",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): EXPOSED_PII analytics_platform/analytics_3697, ACTIVE_DATA_FLOW integration_service/data_flow_8524, REMAINING_RECORD search_service/search_9359, EXPOSED_PII support_platform/support_6477",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_31",
+      "expected_status": "COMPLETE",
+      "predicted_status": "COMPLETE",
+      "match": true,
+      "confidence": "unverified",
+      "status_reason": "no violation found; the account record itself is not confirmed absent",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    },
+    {
+      "case_id": "case_32",
+      "expected_status": "INCOMPLETE",
+      "predicted_status": "INCOMPLETE",
+      "match": true,
+      "confidence": "high",
+      "status_reason": "confirmed unmet requirement(s): EXPOSED_PII identity_service/tombstone_9178",
+      "missed_findings": [],
+      "extra_findings": [],
+      "ambiguities": []
+    }
+  ]
+}

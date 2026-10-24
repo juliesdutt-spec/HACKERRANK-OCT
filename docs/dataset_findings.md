@@ -16,6 +16,13 @@ Facts established by inspecting participant-facing files only. They drive the de
 - `request_text` is multilingual (EN, ES, FR, PT, KO, JA and others); English keyword rules miss deletion requests.
 - 10 `CLASSIFY_REQUEST` activity rows from `privacy_intake` mark a request (by account resource) as non-deletion.
 
+- Request intent (all 398 distinct texts inspected):
+  - 453 requests use one of 12 English deletion sentences, plus a neutral scope and closing sentence;
+  - 85 use fixed deletion templates in Portuguese, French, Japanese, Spanish and Korean;
+  - exactly 10 (`case_533` to `case_542`) are explicit non-deletion requests: correction, opt-out, export, access, login help, invoice copies, email change.
+- The 10 `CLASSIFY_REQUEST` claims could be linked by identifiers to only 1 of those 10 cases.
+- `LINK_RESOURCE_IDENTITY` claims (12) each tie a screenshot or document resource to one main-set case audited about a day after the capture. `activity_4008` claims `marketing_001` for `user_09`, but the marketing console shows Soo-jin Park, `sj.park@naver.com`: a contradicted claim.
+
 ## Evidence (94 files)
 
 All files share one underlying unit: system, resource ID, record type, state, an identifier (email, hash, `user_NN` reference or phone) and a time. Encodings:

@@ -338,3 +338,173 @@ branch=claude/ecstatic-fermi-e5tezy
 repo_root=/home/user/hackerrank-orchestrate-october26
 worktree=main
 parent_agent=none
+
+## [2026-10-24T15:28:17Z] Evidence-linking and deletion-status engine
+
+User Prompt (verbatim, secrets redacted):
+Continue the existing HackerRank Orchestrate October 2026 challenge, “Ghost Data Still Exists.”
+Your previous task was to build the evidence index. First inspect the actual implementation, tests, and results from that task. Do not assume it is complete just because a summary says so.
+OBJECTIVE
+Implement the evidence-linking and deletion-status engine that uses the indexed evidence, historical identity resolution, deletion rules, and audit timestamps to determine the correct status for each deletion request.
+Do not build a frontend. Focus exclusively on the Python solution and the challenge's required output.
+1. Inspect Before Coding
+Read:
+
+* `AGENTS.md`
+* `docs/dataset_findings.md`
+* Existing code under `code/ghostaudit/`
+* Existing unit tests
+* `dataset/deletion_rules.csv`
+* `dataset/sample_deletion_requests.csv`
+* `dataset/sample_output.csv`
+* The evidence index implementation and its parsing report
+
+Inspect the actual CSV headers and evidence schemas before using any field.
+Preserve working code. Do not rewrite the identity resolver or evidence parser unless you find a reproducible defect.
+2. Implement Evidence Linking
+For each deletion request:
+
+1. Resolve the person using the existing time-aware identity resolver.
+2. Collect all identifiers valid for that person at or before `audit_at`, according to the existing identity logic.
+3. Search the evidence index for matching records using exact identifier matches and the actual evidence schema.
+4. Respect each record's timestamp and the request's `audit_at`.
+5. Use system and resource identifiers from evidence contents, not guessed relationships.
+6. Distinguish actual matching records from decoys with similar names, emails, or identifiers.
+7. Preserve the original evidence provenance for every match.
+
+Do not link records solely because they occur near the same time or have similar names.
+Do not assume that every record belonging to a person is necessarily non-compliant. Apply the actual deletion rules to determine its required treatment.
+3. Interpret Deletion Requests
+Inspect the request texts and dataset structure before implementing classification.
+Determine whether the person requested deletion using evidence supported by the actual dataset. Requests may use multiple languages.
+Rules:
+
+* Do not rely exclusively on English keywords.
+* Do not infer a deletion request merely because a request contains an email address or mentions an account.
+* Do not classify a request as `NOT_APPLICABLE` unless the available evidence supports that the person did not request deletion.
+* Do not invent translations, intent, or classifications for ambiguous text.
+* If a case cannot be resolved reliably, document the ambiguity and inspect how the challenge's sample cases represent similar situations.
+
+Use deterministic, locally available methods wherever possible. Do not introduce an external API, LLM dependency, or API key requirement without first explaining why it is necessary.
+4. Apply Deletion Rules at Audit Time
+Read the actual `deletion_rules.csv` and implement its rules as data-driven logic.
+For each linked record, determine:
+
+* Whether it is relevant to the deletion request.
+* Whether it should be deleted, redacted, anonymized, retained, or otherwise treated according to the dataset's rules.
+* Whether direct identifiers remain exposed.
+* Whether required retained records remain available.
+* Whether an active data flow could recreate deleted data.
+* Whether a restore or import process could reintroduce data.
+* Whether the record's state at `audit_at` can be established from available evidence.
+
+Do not hardcode assumptions about record types or systems without verifying them against the actual rules and evidence.
+Important: A record's presence is not automatically proof of non-compliance. A record's absence from the evidence index is not automatically proof that it was deleted. Distinguish confirmed evidence from missing or inconclusive evidence.
+5. Determine the Status
+Use only the challenge's allowed statuses:
+
+* `COMPLETE`: Evidence supports that all applicable requirements are satisfied at `audit_at`, including required retention, identifier treatment, and prevention of data recreation.
+* `INCOMPLETE`: Evidence establishes at least one unmet requirement, such as a prohibited surviving record, exposed personal identifier, active data flow, or unblocked restore risk.
+* `NOT_APPLICABLE`: Evidence supports that the person did not request deletion.
+
+Do not mark a case `COMPLETE` merely because its reported workflow status says “Complete.”
+Do not mark a case `INCOMPLETE` based solely on missing evidence unless the challenge's rules support that conclusion.
+If the dataset does not provide enough information to classify a case confidently, document the precise uncertainty and compare it with the challenge's expected status semantics before deciding. Never silently invent evidence.
+6. Preserve an Auditable Intermediate Result
+Create a machine-readable intermediate result for each case that records:
+
+* `case_id`
+* Resolved `user_id`, if established
+* Relevant identifiers used for matching
+* Linked evidence IDs and source file references
+* System and resource IDs
+* Record type and observed state
+* Event timestamp and whether it falls within the audit cutoff
+* Applicable deletion rule
+* Required treatment
+* Compliance finding
+* Reason for the final status
+* Any unresolved ambiguity
+
+Use the existing project structure where practical. Do not create redundant modules if suitable ones already exist.
+Every conclusion must be traceable to actual input data, an actual rule, or an explicitly documented inference.
+7. Testing Requirements
+Add focused tests for:
+
+* Current and historical email matches
+* Case-insensitive email matching
+* Near-match decoys
+* Evidence before and after `audit_at`
+* Records without usable timestamps
+* Multiple records linked to one person
+* Permitted retained records
+* Records requiring deletion, redaction, or anonymization
+* Active data flows and restore risks
+* Unresolved or ambiguous evidence
+* Requests that are genuinely `NOT_APPLICABLE`
+* Evidence provenance and rule traceability
+
+Use small synthetic fixtures for edge cases. Never modify the real challenge dataset to make a test pass.
+Run the existing tests as well as the new tests. Report the actual commands and results.
+8. Validate Against the Sample Cases
+Use the actual sample input and expected output files.
+For each sample case:
+
+* Compare the predicted status with the expected status.
+* Explain every mismatch using concrete evidence and applicable rules.
+* Inspect whether differences arise from implementation defects, ambiguous data, missing participant evidence, or an issue in the sample itself.
+* Do not hardcode expected answers into the production logic.
+
+Trace at least five representative cases end to end, including:
+
+* One case classified as `COMPLETE`
+* One case classified as `INCOMPLETE`
+* One case classified as `NOT_APPLICABLE`, if the samples contain one
+* One case involving historical identity information
+* One case involving a data-flow or restore risk, if the evidence contains one
+
+Select cases that actually exist in the dataset. If a category is absent, say so instead of fabricating an example.
+9. Required Completion Report
+When finished, report:
+
+1. Files created or modified.
+2. Actual tests executed and their results.
+3. Sample status accuracy and total cases evaluated.
+4. Status mismatches with case IDs and evidence-based explanations.
+5. Cases with unresolved evidence or ambiguous request intent.
+6. Any known dataset or sample-answer limitations.
+7. The exact next implementation task.
+
+Do not claim success without command output or other verifiable results.
+STRICT RULES
+
+* Never invent evidence IDs, resource IDs, system IDs, timestamps, record states, or deletion rules.
+* Never use a filename alone as proof that a record exists or is absent.
+* Never treat missing evidence as proof of deletion.
+* Never assume the reported workflow status is correct.
+* Never hardcode sample answers into production logic.
+* Never suppress parser errors or unresolved records silently.
+* Never claim a test passed unless it was actually executed.
+* Keep the implementation deterministic, testable, and traceable.
+* If an important assumption cannot be verified from the repository, stop and report the exact missing information instead of guessing.
+
+Definition of done: The engine can link evidence to requests using validated identifiers, apply actual deletion rules at audit time, determine statuses with traceable reasoning, and produce a meaningful sample evaluation report. Do not proceed to the final 518-row output until these checks are complete.
+
+Agent Response Summary:
+Re-verified the evidence index (54 tests and build OK) and inspected all 398 distinct request texts. Built a deterministic multilingual intent classifier (10 explicit non-deletion requests, case_533 to case_542; 0 ambiguous) and a data-driven policy engine that loads deletion_rules.csv with exact-text condition evaluators. Categories come from explicit record types, defining fields, collections or learned prefixes. Each resource is assessed per storage channel, with content-only exposure. The audit engine writes traceable per-case JSON (identifiers, evidence IDs, rule IDs, deciding evidence, reasons, ambiguities). Found and fixed one index defect: claim-only links were treated like evidence links, which let the marketing_001 decoy through; contradicted claims are now excluded. Sample results: status 32/32, findings 41/41 with 0 extra, treatment 77/77. Disclosed that 3 category mappings were informed by sample cases. 93 tests pass. No output.csv was written.
+
+Actions:
+* Created code/ghostaudit/requests.py, policy.py, audit.py, code/audit_cases.py, code/evaluation/evaluate_status.py
+* Created code/tests/test_requests.py, test_policy.py, test_audit.py and docs/status_engine.md
+* Modified code/ghostaudit/evidence/index.py (MatchedRecord.claim_only) and docs/dataset_findings.md
+* Generated artifacts/case_audits_sample.json, case_audits_main.json, sample_status_evaluation.json (deterministic; md5 identical on rerun)
+* Ran python3 -W error::ResourceWarning -m unittest discover -s code/tests (93 tests OK)
+* Appended this entry, committed and pushed
+
+Context:
+tool=Claude Code
+model=claude-opus-5-5
+branch=claude/ecstatic-fermi-e5tezy
+repo_root=/home/user/hackerrank-orchestrate-october26
+worktree=main
+parent_agent=none
