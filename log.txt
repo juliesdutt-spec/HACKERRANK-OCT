@@ -816,3 +816,22 @@ branch=main
 repo_root=/home/user/hackerrank-oct
 worktree=main
 parent_agent=none
+
+## [2026-10-25T13:44:58Z] AI Judge interview: likely question types and answer points
+
+User Prompt (verbatim, secrets redacted):
+BRO NOW A IMPORTANT THING ABOUT THE AI INTERVIEW NOW CLALCULATE THE ENTIRE PROBABLITY TYPE OF QUESTIONS AI INTERVIEW BOT CAN ASK
+
+Agent Response Summary:
+Explained that real probabilities can't be calculated because there is no data on the judge's question bank. Gave estimated likelihoods based on what HackerRank says the interview covers (approach, decisions, how AI was used) and what the judge can see (code.zip, output.csv, log.txt). Listed the likely question types, ranked, each with short answer points taken from the verified results and design (architecture, AI use, no LLM at runtime, metrics, statuses, audit_at, identity, remediation order, tombstones and retention, bugs fixed, limitations, no hardcoding, case drill-downs, the log). Advised answering honestly about anything in the log. No code changed.
+
+Actions:
+* none besides appending this entry to log.txt and committing and pushing it
+
+Context:
+tool=Claude Code
+model=claude-opus-5-5
+branch=main
+repo_root=/home/user/hackerrank-oct
+worktree=main
+parent_agent=none
